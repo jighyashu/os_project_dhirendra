@@ -1,0 +1,223 @@
+#include<iostream>
+
+using namespace std;
+
+
+
+const int p=3;	//total no of processes
+const int r=3;	//total no of resources	
+
+void calculateNeed(int need[p][r],int maxm[p][r],int allot[p][r])
+
+{
+
+for(int i=0;i<p;i++)
+
+
+for(int j=0;j<r;j++)
+
+
+
+
+need[i][j]=maxm[i][j]-allot[i][j];
+
+
+}
+
+bool isSafe(int processes[],int avail[],int maxm[][r],int allot[][r])
+
+{
+
+int need[p][r];
+
+
+calculateNeed(need ,maxm , allot);
+
+
+
+
+bool finish[p] ={0};
+
+
+
+
+int safeSeq[p];
+
+
+
+
+int work[r];
+
+
+for(int i=0;i<r;i++)
+
+
+work[i] =avail[i];
+
+
+
+
+int count =0;
+
+
+while(count < p)
+
+ 
+
+
+{
+
+
+bool found = false;
+
+
+for(int l=0; l<p; l++)
+
+
+{
+
+
+
+
+if (finish[l]== 0)
+
+
+{
+
+
+
+
+int j;
+
+
+for(j=0; j<r; j++)
+
+
+if(need[l][j] > work[j])
+
+
+break;
+
+
+
+
+if(j== r)
+
+
+{
+
+
+
+
+for(int k =0;k<r;k++)
+
+
+work[k] += allot[l][k];
+
+
+
+
+safeSeq[count++]=p;
+
+
+finish[l] = 1;
+
+
+
+
+found = true;
+
+
+}
+
+
+}
+
+
+}
+
+ 
+
+
+if (found ==false)
+
+
+{
+
+
+cout << "system is not in safe state";
+
+
+return false;
+
+
+}
+
+
+}
+
+
+
+
+cout << " system is in safe state. \n safe sequence is :";
+
+
+for(int i=0; i<p; i++)
+
+
+cout<< safeSeq[i]<< " ";
+
+
+return true;
+
+
+}
+
+
+
+
+
+
+
+
+int main()
+
+{
+
+int processes[] ={0,1,2};
+
+
+
+
+int avail[]={2,1,0};
+
+
+
+
+int maxm[][r]= {{8,4,3},
+
+
+{6,2,0},
+
+
+{3,3,3}};
+
+
+
+
+int allot[][r]= {{0,0,1},
+
+ 
+{3,2,0},
+
+
+{2,1,1}};
+
+
+
+
+isSafe(processes, avail, maxm, allot);
+
+
+return 0;
+
